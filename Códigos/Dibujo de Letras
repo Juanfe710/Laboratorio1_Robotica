@@ -1,0 +1,410 @@
+import rclpy    #Librerias
+from rclpy.node import Node
+from geometry_msgs.msg import Twist
+from pynput import keyboard
+from threading import Thread
+from turtlesim.msg import Pose
+
+class TurtleController(Node):   #Creacion de Nodo
+    def __init__(self):
+        super().__init__('turtle_controller')
+        self.publisher_ = self.create_publisher(Twist, '/turtle1/cmd_vel', 10)
+        self.pose_subscriber = self.create_subscription(Pose, '/turtle1/pose', self.pose_callback, 10)
+        self.current_angle = 0.0    #Angulo de la tortuga
+        self.count=0    #Contador
+        self.listening_thread = Thread(target=self.listen_key)    #Leer teclado
+        self.listening_thread.start()
+
+    def pose_callback(self, msg):   #Funcion para conocer el angulo de la tortuga en cualquir momento
+        self.current_angle = msg.theta 
+
+    def listen_key(self):   #Funcion para leer las teclas del teclado
+        def on_press(key):
+            try:
+                if key.char == 'z':
+                    self.count=0
+                    self.get_logger().info('Tecla Z presionada. Ejecutando movimiento...')
+                    self.timer = self.create_timer(0.5, self.move_turtlez)  #Se ejecuta la funcion cada 0.5 segundos
+                elif key.char == 's':
+                    self.count=0
+                    self.get_logger().info('Tecla S presionada. Ejecutando movimiento...')
+                    self.timer = self.create_timer(0.5, self.move_turtles)
+                elif key.char == 'j':
+                    self.count=0
+                    self.get_logger().info('Tecla J presionada. Ejecutando movimiento...')
+                    self.timer = self.create_timer(0.5, self.move_turtlej)
+                elif key.char == 'f':
+                    self.count=0
+                    self.get_logger().info('Tecla F presionada. Ejecutando movimiento...')
+                    self.timer = self.create_timer(0.5, self.move_turtlef)
+                elif key.char == 'h':
+                    self.count=0
+                    self.get_logger().info('Tecla H presionada. Ejecutando movimiento...')
+                    self.timer = self.create_timer(0.5, self.move_turtleh)
+                elif key.char == 'g':
+                    self.count=0
+                    self.get_logger().info('Tecla G presionada. Ejecutando movimiento...')
+                    self.timer = self.create_timer(0.5, self.move_turtleg)
+            except AttributeError:
+                pass
+
+        with keyboard.Listener(on_press=on_press) as listener:
+            listener.join()
+        
+    def move_turtles(self): #Funcion para dibujar la letra S
+        msg = Twist()
+    
+        if self.count == 0:
+            msg.linear.x = 0.0
+            msg.angular.z = 0.0
+            self.count=self.count+1
+        elif self.count == 1:
+            if self.current_angle>-1.57:
+                msg.linear.x = 0.0
+                msg.angular.z = -0.25
+            else:
+                msg.linear.x = 0.0
+                msg.angular.z = 0.0
+                self.count=self.count+1
+        elif self.count == 2:
+            if self.current_angle<2.5:
+                msg.linear.x = 0.25
+                msg.angular.z = 0.25
+            else:
+                msg.linear.x = 0.0
+                msg.angular.z = 0.0
+                self.count=self.count+1
+        elif self.count == 3:
+            msg.linear.x = 3.5
+            msg.angular.z = 0.0
+            self.count=self.count+1
+        elif self.count == 4:
+            if self.current_angle>-1.35:
+                msg.linear.x = 0.25
+                msg.angular.z = -0.25
+            else:
+                msg.linear.x = 0.0
+                msg.angular.z = 0.0
+                self.count=self.count+1
+                self.get_logger().info('Movimiento terminado.')
+        else:
+            return
+    
+        self.publisher_.publish(msg)
+        self.get_logger().info('Moviendo la tortuga')
+
+    def move_turtlez(self):     #Funcion para dibujar la letra Z
+        msg = Twist()
+    
+        if self.count == 0:
+            msg.linear.x = 0.0
+            msg.angular.z = 0.0
+            self.count=self.count+1
+        elif self.count == 1:
+            msg.linear.x = 3.0
+            msg.angular.z = 0.0
+            self.count=self.count+1
+        elif self.count == 2:
+            if self.current_angle>-2.2:
+                msg.linear.x = 0.0
+                msg.angular.z = -0.25
+            else:
+                msg.linear.x = 0.0
+                msg.angular.z = 0.0
+                self.count=self.count+1
+        elif self.count == 3:
+            msg.linear.x = 4.5
+            msg.angular.z = 0.0
+            self.count=self.count+1
+        elif self.count == 4:
+            if self.current_angle<0.0:
+                msg.linear.x = 0.0
+                msg.angular.z = 0.25
+            else:
+                msg.linear.x = 0.0
+                msg.angular.z = 0.0
+                self.count=self.count+1
+        elif self.count == 5:
+            msg.linear.x = 1.7
+            msg.angular.z = 0.0
+            self.count=self.count+1
+            self.get_logger().info('Movimiento terminado.')
+        else:
+            return
+    
+        self.publisher_.publish(msg)
+        self.get_logger().info('Moviendo la tortuga')
+
+    def move_turtlej(self):     #Funcion para dibujar la letra J
+        msg = Twist()
+    
+        if self.count == 0:
+            msg.linear.x = 0.0
+            msg.angular.z = 0.0
+            self.count=self.count+1
+        elif self.count == 1:
+            if self.current_angle>-1.57:
+                msg.linear.x = 0.0
+                msg.angular.z = -0.25
+            else:
+                msg.linear.x = 0.0
+                msg.angular.z = 0.0
+                self.count=self.count+1
+        elif self.count == 2:
+            if self.current_angle<1.5:
+                msg.linear.x = 0.25
+                msg.angular.z = 0.25
+            else:
+                msg.linear.x = 0.0
+                msg.angular.z = 0.0
+                self.count=self.count+1
+        elif self.count == 3:
+            msg.linear.x = 2.5
+            msg.angular.z = 0.0
+            self.count=self.count+1
+            self.get_logger().info('Movimiento terminado.')
+        else:
+            return
+    
+        self.publisher_.publish(msg)
+        self.get_logger().info('Moviendo la tortuga')
+
+    
+    def move_turtlef(self):     #Funcion para dibujar la letra F
+        msg = Twist()
+    
+        if self.count == 0:
+            msg.linear.x = 0.0
+            msg.angular.z = 0.0
+            self.count=self.count+1
+        elif self.count == 1:
+            if self.current_angle<1.57:
+                msg.linear.x = 0.0
+                msg.angular.z = 0.25
+            else:
+                msg.linear.x = 0.0
+                msg.angular.z = 0.0
+                self.count=self.count+1
+        elif self.count == 2:
+            msg.linear.x = 3.5
+            msg.angular.z = 0.0
+            self.count=self.count+1
+        elif self.count == 3:
+            if self.current_angle>0:
+                msg.linear.x = 0.0
+                msg.angular.z = -0.25
+            else:
+                msg.linear.x = 0.0
+                msg.angular.z = 0.0
+                self.count=self.count+1
+        elif self.count == 4:
+            msg.linear.x = 2.0
+            msg.angular.z = 0.0
+            self.count=self.count+1
+        elif self.count == 5:
+            if self.current_angle<3.05:
+                msg.linear.x = 0.0
+                msg.angular.z = 0.25
+            else:
+                msg.linear.x = 0.0
+                msg.angular.z = 0.0
+                self.count=self.count+1
+        elif self.count == 6:
+            msg.linear.x = 2.0
+            msg.angular.z = 0.0
+            self.count=self.count+1
+        elif self.count == 7:
+            if self.current_angle>1.57:
+                msg.linear.x = 0.0
+                msg.angular.z = -0.25
+            else:
+                msg.linear.x = 0.0
+                msg.angular.z = 0.0
+                self.count=self.count+1
+        elif self.count == 8:
+            msg.linear.x = 2.0
+            msg.angular.z = 0.0
+            self.count=self.count+1
+        elif self.count == 9:
+            if self.current_angle>0:
+                msg.linear.x = 0.0
+                msg.angular.z = -0.25
+            else:
+                msg.linear.x = 0.0
+                msg.angular.z = 0.0
+                self.count=self.count+1
+        elif self.count == 10:
+            msg.linear.x = 1.5
+            msg.angular.z = 0.0
+            self.count=self.count+1
+            self.get_logger().info('Movimiento terminado.')
+        else:
+            return
+    
+        self.publisher_.publish(msg)
+        self.get_logger().info('Moviendo la tortuga')
+
+    
+    def move_turtleh(self):     #Funcion para dibujar la letra H
+        msg = Twist()
+    
+        if self.count == 0:
+            msg.linear.x = 0.0
+            msg.angular.z = 0.0
+            self.count=self.count+1
+        elif self.count == 1:
+            if self.current_angle<1.57:
+                msg.linear.x = 0.0
+                msg.angular.z = 0.25
+            else:
+                msg.linear.x = 0.0
+                msg.angular.z = 0.0
+                self.count=self.count+1
+        elif self.count == 2:
+            msg.linear.x = 3.0
+            msg.angular.z = 0.0
+            self.count=self.count+1
+        elif self.count == 3:
+            msg.linear.x = 0.0
+            msg.angular.z = 0.0
+            self.count=self.count+1
+        elif self.count == 4:
+            msg.linear.x = 3.0
+            msg.angular.z = 0.0
+            self.count=self.count+1
+        elif self.count == 5:
+            if self.current_angle>-1.50:
+                msg.linear.x = 0.0
+                msg.angular.z = -0.25
+            else:
+                msg.linear.x = 0.0
+                msg.angular.z = 0.0
+                self.count=self.count+1
+        elif self.count == 6:
+            msg.linear.x = 3.0
+            msg.angular.z = 0.0
+            self.count=self.count+1
+        elif self.count == 7:
+            if self.current_angle<0:
+                msg.linear.x = 0.0
+                msg.angular.z = 0.25
+            else:
+                msg.linear.x = 0.0
+                msg.angular.z = 0.0
+                self.count=self.count+1
+        elif self.count == 8:
+            msg.linear.x = 2.5
+            msg.angular.z = 0.0
+            self.count=self.count+1
+        elif self.count == 9:
+            if self.current_angle<1.50:
+                msg.linear.x = 0.0
+                msg.angular.z = 0.25
+            else:
+                msg.linear.x = 0.0
+                msg.angular.z = 0.0
+                self.count=self.count+1
+        elif self.count == 10:
+            msg.linear.x = 3.0
+            msg.angular.z = 0.0
+            self.count=self.count+1
+        elif self.count == 11:
+            if self.current_angle>-1.50:
+                msg.linear.x = 0.0
+                msg.angular.z = -0.25
+            else:
+                msg.linear.x = 0.0
+                msg.angular.z = 0.0
+                self.count=self.count+1
+        elif self.count == 12:
+            msg.linear.x = 3.0
+            msg.angular.z = 0.0
+            self.count=self.count+1
+        elif self.count == 13:
+            msg.linear.x = 0.0
+            msg.angular.z = 0.0
+            self.count=self.count+1
+        elif self.count == 14:
+            msg.linear.x = 2.0
+            msg.angular.z = 0.0
+            self.count=self.count+1
+            self.get_logger().info('Movimiento terminado.')
+        else:
+            return
+    
+        self.publisher_.publish(msg)
+        self.get_logger().info('Moviendo la tortuga')
+
+
+    def move_turtleg(self):     #Funcion para dibujar la letra G
+        msg = Twist()
+    
+        if self.count == 0:
+            msg.linear.x = 0.0
+            msg.angular.z = 0.0
+            self.count=self.count+1
+        if self.count == 1:
+            msg.linear.x = 2.0
+            msg.angular.z = 0.0
+            self.count=self.count+1
+        elif self.count == 2:
+            if self.current_angle>-1.57:
+                msg.linear.x = 0.0
+                msg.angular.z = -0.25
+            else:
+                msg.linear.x = 0.0
+                msg.angular.z = 0.0
+                self.count=self.count+1
+        elif self.count == 3:
+            msg.linear.x = 1.0
+            msg.angular.z = 0.0
+            self.count=self.count+1
+        elif self.count == 4:
+            if self.current_angle>-3.0:
+                msg.linear.x = 0.25
+                msg.angular.z = -0.25
+            else:
+                msg.linear.x = 0.0
+                msg.angular.z = 0.0
+                self.count=self.count+1
+        elif self.count == 5:
+            msg.linear.x = 0.25
+            msg.angular.z = -0.25
+            self.count=self.count+1
+        elif self.count == 6:
+            msg.linear.x = 0.25
+            msg.angular.z = -0.25
+            self.count=self.count+1
+        elif self.count == 7:
+            if self.current_angle>1.6:
+                msg.linear.x = 0.25
+                msg.angular.z = -0.25
+            else:
+                msg.linear.x = 0.0
+                msg.angular.z = 0.0
+                self.count=self.count+1
+        elif self.count == 8:
+            msg.linear.x = 2.0
+            msg.angular.z = 0.0
+            self.count=self.count+1
+        elif self.count == 9:
+            if self.current_angle>-1.0:
+                msg.linear.x = 0.25
+                msg.angular.z = -0.25
+            else:
+                msg.linear.x = 0.0
+                msg.angular.z = 0.0
+                self.count=self.count+1
+                self.get_logger().info('Movimiento terminado.')
+        else:
+            return
+    
+        self.publisher_.publish(msg)
+        self.get_logger().info('Moviendo la tortuga')
+
+def main(args=None):
+    rclpy.init(args=args)
+    node = TurtleController()
+    rclpy.spin(node)
+    node.destroy_node()
+    rclpy.shutdown()
