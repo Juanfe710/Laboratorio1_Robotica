@@ -21,3 +21,8 @@ Por tal motivo, se optó por utilizar una suscripción que permite obtener el á
 
 Con estas funciones y la lectura del ángulo de la tortuga, se logró cumplir con el objetivo del segundo punto del laboratorio. Con el fin de que haya una mejor comprensión del código, a continuación se muestra un diagrama de flujo que representa la solución planteada para dicho problema.
 
+##Diagramas de Flujo
+###Punto 1
+
+
+###Punto 2
