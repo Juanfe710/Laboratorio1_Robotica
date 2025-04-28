@@ -24,6 +24,6 @@ Con estas funciones y la lectura del ángulo de la tortuga, se logró cumplir co
 Diagramas de Flujo
 
 Punto 1
-![Diagrama de Flujo Punto 1](Imágenes/Punto1Lab1.png)
+![Diagrama de Flujo Punto 1](Punto1_Lab1.png)
 
 ###Punto 2
