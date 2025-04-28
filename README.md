@@ -28,3 +28,6 @@ Punto 1
 
 Punto 2
 ![Diagrama de Flujo Punto 1](Imágenes/Punto2_Lab1.png)
+
+Link del video
+https://drive.google.com/file/d/19WCFmRM3boX6qKRJ24dMYCh4oIjYdfr1/view?usp=sharing
