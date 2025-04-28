@@ -26,4 +26,5 @@ Diagramas de Flujo
 Punto 1
 ![Diagrama de Flujo Punto 1](Imágenes/Punto1_Lab1.png)
 
-###Punto 2
+Punto 2
+![Diagrama de Flujo Punto 1](Imágenes/Punto2_Lab1.png)
